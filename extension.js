@@ -43,7 +43,7 @@ function ERR(l) {
 
 function battery_icon_name(pct) {
 	var icon = "battery-missing-symbolic";
-	if (typeof pct == "number" && pct != -1 && !isNaN(pct)) {
+	if (typeof pct == "number" && pct > 0 && !isNaN(pct)) {
 		let closestPct = Math.floor(pct / 10) * 10;
 		icon = "battery-level-" + closestPct + "-symbolic";
 	}
@@ -74,6 +74,7 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 				style_class: "icon-button headset-button",
 				hasMenu: false,
 				canFocus: true,
+				visible: true
 			});
 
 			this._container = new St.BoxLayout({
@@ -110,7 +111,12 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 
 		_updateBatteryIcon() {
 			//this.icon_name = "audio-headset-symbolic";
-			this._label.set_text(this._batteryPct + "%");
+			if (typeof this._batteryPct == "number" && this._batteryPct > 0 && !isNaN(this._batteryPct)) {
+				this.visible = true; 
+				this._label.set_text(this._batteryPct + "%");
+			} else {
+				this.visible = false; 
+			}
 		}
 
 		_update() {
@@ -135,7 +141,6 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 				// We will process the output at once when it's done
 				this._batterySourceId = GLib.child_watch_add(0, pid, () => {this._checkBattery()} );
 				this._batteryPid = pid;
-				LOG("Launched battery check process")
 			} catch (err) {
 				this._errorString = err.message.toString();
 				LOG("Battery update error: " + this._errorString);
