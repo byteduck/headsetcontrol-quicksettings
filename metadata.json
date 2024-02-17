@@ -1,0 +1,8 @@
+{
+  "name": "HeadsetControl Integration",
+  "description": "Integrates the GNOME shell with HeadsetControl functionality.",
+  "uuid": "headsetcontrol@byteduck",
+  "shell-version": [
+    "45"
+  ]
+}
