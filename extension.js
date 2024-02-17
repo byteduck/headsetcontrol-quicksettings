@@ -42,30 +42,30 @@ function ERR(l) {
 }
 
 function battery_icon_name(pct) {
-		var icon = "battery-missing-symbolic";
-		if (typeof pct == "number" && pct != -1 && !isNaN(pct)) {
-			let closestPct = Math.floor(pct / 10) * 10;
-			icon = "battery-level-" + closestPct + "-symbolic";
-		}
-		return icon;
+	var icon = "battery-missing-symbolic";
+	if (typeof pct == "number" && pct != -1 && !isNaN(pct)) {
+		let closestPct = Math.floor(pct / 10) * 10;
+		icon = "battery-level-" + closestPct + "-symbolic";
+	}
+	return icon;
 }
 
 const HeadsetToggleMenu = GObject.registerClass(
-class HeadsetToggleMenu extends QuickSettings.QuickMenuToggle {
-    _init() {
-		super._init({
-			title: _("Headset"),
-			toggleMode: false
-		});
-		
-    }
+	class HeadsetToggleMenu extends QuickSettings.QuickMenuToggle {
+		_init() {
+			super._init({
+				title: _("Headset"),
+				toggleMode: false
+			});
 
-	set_battery(pct) {
-		this.icon_name = battery_icon_name(pct);
-		this.menu.setHeader("audio-headset-symbolic", _("Headset Control"), "Headset battery: " + pct + "%");
-	}
+		}
 
-});
+		set_battery(pct) {
+			this.icon_name = battery_icon_name(pct);
+			this.menu.setHeader("audio-headset-symbolic", _("Headset Control"), "Headset battery: " + pct + "%");
+		}
+
+	});
 
 const HeadsetBatteryIndicator = GObject.registerClass(
 	class HeadsetBatteryIndicator extends QuickSettings.QuickSettingsItem {
@@ -75,13 +75,13 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 				hasMenu: false,
 				canFocus: true,
 			});
- 
+
 			this._container = new St.BoxLayout({
-                style_class: '',
-                y_align: Clutter.ActorAlign.CENTER,
-                x_align: Clutter.ActorAlign.CENTER,
-                vertical: false,
-            });
+				style_class: '',
+				y_align: Clutter.ActorAlign.CENTER,
+				x_align: Clutter.ActorAlign.CENTER,
+				vertical: false,
+			});
 
 			this._icon = new St.Icon({
 				style_class: "headset-icon",
@@ -96,7 +96,7 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 			this._container.add_child(this._label);
 			this.set_child(this._container);
 
-            this.set_y_align(Clutter.ActorAlign.CENTER);
+			this.set_y_align(Clutter.ActorAlign.CENTER);
 
 			this._batteryPct = -1;
 
@@ -107,7 +107,7 @@ const HeadsetBatteryIndicator = GObject.registerClass(
 			});
 			this._update();
 		}
-		
+
 		_updateBatteryIcon() {
 			//this.icon_name = "audio-headset-symbolic";
 			this._label.set_text(this._batteryPct + "%");
